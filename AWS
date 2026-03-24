@@ -1,1 +1,21 @@
+1. What is cross-account access in AWS, and why is it important?
 
+Cross-account access in AWS allows entities (users, roles, services) in one AWS account to securely access resources in another AWS account
+
+Advantages:
+
+1.Allows central management of resources (e.g., billing, logging).
+
+2.Facilitates collaboration between accounts (e.g., Dev and Prod accounts).
+
+3.Reduces the need for credential sharing between accounts, enhancing security.
+
+*Cross-account access can be established using AWS IAM Roles and Resource-Based Policies
+
+*AWS Resource Access Manager (RAM) allows to share AWS resources (like VPC subnets, Route 53 zones, etc.) with other AWS accounts or within our AWS Organization without needing to rely on cross-account roles or manual access configurations
+
+*There are two policies are there for cross-account access
+
+1.Trust Policy: This is attached to an IAM role and specifies which entities (like IAM users, roles, or accounts) are allowed to assume the role.
+
+2.Permissions Policy: This policy defines what actions and resources the role can access once it is assumed. It is applied to the IAM role itself.
