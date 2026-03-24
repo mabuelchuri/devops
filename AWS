@@ -1,4 +1,4 @@
-1. What is cross-account access in AWS, and why is it important?
+Q1. What is cross-account access in AWS, and why is it important?
 
 Cross-account access in AWS allows entities (users, roles, services) in one AWS account to securely access resources in another AWS account
 
@@ -19,3 +19,48 @@ Advantages:
 1.Trust Policy: This is attached to an IAM role and specifies which entities (like IAM users, roles, or accounts) are allowed to assume the role.
 
 2.Permissions Policy: This policy defines what actions and resources the role can access once it is assumed. It is applied to the IAM role itself.
+
+
+Q2. Are Security Groups stateful or stateless? Explain.
+  
+1. Security Groups are stateful they track the state of active network connections and automatically allow return traffic for allowed inbound requests, regardless of outbound rules. If an incoming request is allowed, the corresponding outbound response is permitted automatically 
+
+2. If we permit inbound traffic (e.g., port 80), the outbound traffic corresponding to that session is allowed back out, even if no outbound rules are explicitly defined. 
+
+3.security group operate at the instance (NIC) level rather than the subnet level.
+ 
+4.Security groups only have "allow" rules; traffic is blocked by default. 
+
+
+Q3. How would you migrate a running EC2 instance to another region with minimal downtime?  
+
+1. To migrate a running EC2 instance to another region with minimal downtime, we create an AMI of the running instance (using No-Reboot if possible), copy the AMI to the destination region, and launch a new instance. 
+
+2.Navigate to EC2 > Instances, right-click the instance -> Image and templates -> Create image. 
+
+3.Select "No reboot" to avoid downtime during image creation, though this may lead to file system inconsistencies. 
+ 
+4.Go to AMIs under Images, select the newly created AMI, click Actions -> Copy AMI. 
+
+5.Select the destination region and initiate the copy.
+
+ 6. Once the AMI copy is "Available" in the destination region, right-click it -> Launch instance from AMI. 
+
+7.EIPs cannot be moved between regions. we must allocate a new EIP in the destination region.
+
+
+Q4. Your entire production workload runs in a single AWS region, and management asks you to design a multi-region disaster recovery strategy with minimal downtime. How would you approach it?  
+
+1.To design a multi-region disaster recovery (DR) strategy with minimal downtime, we should adopt a Multi-Site Active-Active or Warm Standby approach. 
+
+2.Multi-Site Active-Active (RTO/RPO ≈ ≈ 0): Run full workloads in two regions simultaneously. This is the most expensive but offers near-zero downtime. 
+
+3.For most production workloads requiring "minimal downtime," a Warm Standby provides a balance of low recovery time and cost-efficiency. 
+
+4. Enable S3 Cross-Region Replication (CRR) to asynchronously copy data from our primary bucket to a secondary region. 
+
+5.we use AWS Elastic Disaster Recovery (DRS) for continuous block-level replication of EC2 instances to a staging area in the secondary region. 
+
+6.we use Route53 Failover Routing Policies with health checks to automatically redirect traffic to the secondary region if the primary becomes unhealthy.
+
+5.Network Access Control Lists (NACLs) are stateless, requiring explicit rules for both incoming and outgoing traffic. 
