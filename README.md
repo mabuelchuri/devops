@@ -6,5 +6,4 @@ Docker
 Kubernetes
 AWS
 CI/CD (Jenkins)
-IAM (Okta, OAuth2, SSO)
 Real-time scenarios
